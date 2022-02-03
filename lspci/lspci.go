@@ -24,7 +24,7 @@ func New(vendorInNumber bool) *LSPCI {
 }
 
 func (l *LSPCI) Run() error {
-	bin, findErr := FindBin("lspci")
+	bin, findErr := FindBinEx("lspci")
 	if findErr != nil {
 		return findErr
 	}
@@ -80,6 +80,10 @@ func parseLSPCI(r io.Reader) (map[string]map[string]string, error) {
 		return nil, err
 	}
 	return ret, nil
+}
+
+func FindBinEx(binary string) (string, error) {
+	return exec.LookPath(binary)
 }
 
 func FindBin(binary string) (string, error) {
